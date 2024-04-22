@@ -1,0 +1,95 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [text]="getBackButtonText()"
+        defaultHref="/"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="device">
+  <!-- HEADER -->
+  <ion-item>
+    <div class="ion-padding view-device-header">
+      <!-- HEADER LEFT -->
+      <div class="view-device-header left">
+        <ion-icon
+          aria-hidden="true"
+          name="person-circle"
+          color="primary"
+        ></ion-icon>
+        <ion-label>
+          <h2>{{ device.name }}</h2>
+          <h3>Location: <ion-note>{{device.location}}</ion-note></h3>
+          <span class="date">
+            <ion-note
+              >{{ !!device.measurements && device.measurements.length > 0 ?
+              device.measurements[0].date : 'No date'}}</ion-note
+            >
+          </span>
+        </ion-label>
+      </div>
+      <!-- HEADER RIGHT -->
+      <div>
+        <ion-toggle
+          [enableOnOffLabels]="true"
+          [checked]="device.electrovalve.state"
+          (ionChange)="updateDevice(device)"
+        >
+          Electrovalve
+        </ion-toggle>
+      </div>
+    </div>
+  </ion-item>
+
+  <div class="ion-padding">
+    <div class="view-device">
+      <h1>Last Measurement</h1>
+      <div class="view-device">
+        <ion-note style="margin-right: 30px"
+          >Date: {{ !!device.measurements && device.measurements.length > 0 ?
+          device.measurements[0].date : 'N/A' }}</ion-note
+        >
+        <ion-note
+          >Value: {{ device.measurements.length > 0 ?
+          device.measurements[0].value + 'kPa' : 'N/A'}}</ion-note
+        >
+      </div>
+
+      <app-graph
+        *ngIf="device.measurements.length > 0"
+        [gaugeValue]="device.measurements[0].value"
+      ></app-graph>
+    </div>
+
+    <!-- <div> -->
+    <ion-accordion-group expand="inset" style="margin: 0px">
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Measurements History</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <app-list-measurement
+            *ngFor="let measurement of device.measurements"
+            [measurement]="measurement"
+          ></app-list-measurement>
+        </div>
+      </ion-accordion>
+
+      <ion-accordion value="second">
+        <ion-item slot="header" color="light">
+          <ion-label>Irrigation Logs</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <app-list-irrigation-log
+            *ngFor="let irrigationLog of device.electrovalve.irrigationLogs"
+            [irrigationLog]="irrigationLog"
+          >
+          </app-list-irrigation-log>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>
+</ion-content>
