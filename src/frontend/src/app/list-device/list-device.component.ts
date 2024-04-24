@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   inject,
   Input,
 } from '@angular/core';
@@ -16,6 +17,7 @@ import {
 import { addIcons } from 'ionicons';
 import { chevronForward } from 'ionicons/icons';
 import { IDevice } from '../services/data.service';
+import { HighlightDirective } from '../directives/underline.directive';
 
 @Component({
   selector: 'app-list-device',
@@ -23,7 +25,16 @@ import { IDevice } from '../services/data.service';
   styleUrls: ['./list-device.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, RouterLink, IonItem, IonLabel, IonNote, IonIcon],
+  imports: [
+    CommonModule,
+    RouterLink,
+    IonItem,
+    IonLabel,
+    IonNote,
+    IonIcon,
+    HighlightDirective,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ListDeviceComponent {
   private platform = inject(Platform);

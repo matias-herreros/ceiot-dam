@@ -3,7 +3,7 @@
     slot="start"
     [class]="device.electrovalve.state ? 'dot dot-unread' : 'dot'"
   ></div>
-  <ion-label class="ion-text-wrap">
+  <ion-label class="ion-text-wrap" [appHighlight]>
     <h2>
       {{ device.name }}
       <span class="date">
