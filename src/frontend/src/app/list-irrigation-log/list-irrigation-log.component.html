@@ -3,7 +3,7 @@
     <div class="history-item" style="display: flex">
       <ion-note> Id: {{ irrigationLog.id }} </ion-note>
       <span class="date">
-        <ion-note>{{ irrigationLog.date }}</ion-note>
+        <ion-note>{{ irrigationLog.date | DateConverter }}</ion-note>
       </span>
     </div>
     <h2>Action: {{ irrigationLog.action }}</h2>
